@@ -1,4 +1,5 @@
 from aiogram import Dispatcher
+from aiogram.utils.exceptions import WrongFileIdentifier
 
 from loader import dp, bot
 import loader
@@ -32,7 +33,7 @@ dict_show_costume_mediagroup: dict = {}
 # Отображение костюма
 @dp.callback_query_handler(lambda c: c.data.startswith("show_costume_id"))
 async def show_costume(cbq: CallbackQuery, all_photo=False):
-    # try:
+    try:
         id_costume = int(cbq.data.split("show_costume_id")[1])
         costume = sqlite_utils.get_costume(id_costume)
 
@@ -60,7 +61,7 @@ async def show_costume(cbq: CallbackQuery, all_photo=False):
 
         # Генерация кнопок
         kb = InlineKeyboardMarkup()
-        # kb.add(InlineKeyboardButton("Зарезервировать 👋", url=sqlite_utils.get_contact_manager()))
+        kb.add(InlineKeyboardButton("Зарезервировать 👋", url=sqlite_utils.get_contact_manager()))
         if len(arr_idphoto) > 1 and all_photo is False:
             kb.add(InlineKeyboardButton("Все фотографии 📸", callback_data=f"show_costume_photo_id{id_costume}"))
         kb.add(InlineKeyboardButton("Вернуться ⬅️", callback_data=f"show_collection_id{int(costume[1])}"))
@@ -97,8 +98,13 @@ async def show_costume(cbq: CallbackQuery, all_photo=False):
             sqlite_utils.set_state(cbq.from_user.id, f"costume_id{id_costume}_arrIdMsg{str_arr_id_photo}")
         else:
             sqlite_utils.set_state(cbq.from_user.id, f"costume_id{id_costume}_idMSG{msg.message_id}")
-    # except Exception as ex:
-    #     print(get_current_time(), "[ОШИБКА] {show_costume}", f"({cbq.from_user.mention})", ex)
+    except WrongFileIdentifier as ex:
+        print(get_current_time(), "[ОШИБКА] {show_costume} (WrongFileIdentifier)", ex.args)
+        admin_id = sqlite_utils.get_one("config", "value", "name='admin_id'")[0]
+        dp.bot.send_message(admin_id, "Ошибка, сообщите системному администратору: WrongFileIdentifier. Ниже ошибка")
+        dp.bot.send_message(admin_id, ex.args)
+    except Exception as ex:
+        print(get_current_time(), "[ОШИБКА] {show_costume}", f"({cbq.from_user.mention})", ex)
 
 
 @dp.callback_query_handler(lambda c: c.data.startswith("show_costume_photo_id"))
