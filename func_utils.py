@@ -7,6 +7,3 @@ def get_current_time():
     minute = str(now.minute).zfill(2)
     second = str(now.second).zfill(2)
     return f"[{hour}:{minute}:{second}]"
-
-
-# test git
