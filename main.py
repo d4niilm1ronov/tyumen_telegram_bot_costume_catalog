@@ -11,10 +11,12 @@ from loader import dp
 # сначала импортируем обработчики
 import handlers.cleaner, handlers.main, handlers.collection, handlers.costume, handlers.admin, handlers.edit
 
+
 async def timed_task():
     now = datetime.now()
     if now.minute % 5 == 0:
         print(get_current_time(), "[Помогатор] Бот работает исправно, все хорошо!")
+
 
 async def on_startup(dp):
     print(get_current_time(), "[Помогатор] Бот запущен!")
