@@ -31,7 +31,7 @@ dict_show_costume_mediagroup: dict = {}
 # ======================================================================================================================
 
 # Отображение костюма
-@dp.callback_query_handler(lambda c: c.data.startswith("show_costume_id"))
+@dp.callback_query_handler(lambda c: c.data.startswith("show_costume_id"), state="*")
 async def show_costume(cbq: CallbackQuery, all_photo=False):
     try:
         id_costume = int(cbq.data.split("show_costume_id")[1])
