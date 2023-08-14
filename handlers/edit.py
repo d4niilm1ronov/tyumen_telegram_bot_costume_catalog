@@ -193,7 +193,7 @@ async def costume_edit(cbq: CallbackQuery, state: FSMContext):
         await state.finish()
         # Начало ввода
         if first_par == "name":
-            text = "Введите новое описание"
+            text = "Введите новое название"
             await EditCostume.wait_new_name.set()
             async with state.proxy() as data:
                 data['costume_id'] = costume_id
