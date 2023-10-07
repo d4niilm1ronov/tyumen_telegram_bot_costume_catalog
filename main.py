@@ -1,4 +1,3 @@
-import zoneinfo
 from datetime import datetime
 
 from aiogram import Bot, Dispatcher, executor

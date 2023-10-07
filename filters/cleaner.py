@@ -1,6 +1,7 @@
 import aiogram
 from aiogram.dispatcher.filters import BoundFilter
 from aiogram.types import Message
+from aiogram.utils.exceptions import MessageCantBeDeleted, MessageToDeleteNotFound
 
 import handlers.costume
 from loader import bot
@@ -21,6 +22,8 @@ class cleaner_image(BoundFilter):
                         pass
                 dict_show_costume_mediagroup[user_id] = []
             return False
+        except (MessageCantBeDeleted, MessageToDeleteNotFound):
+            pass
         except Exception as ex:
             print(get_current_time(), "[ОШИБКА] {cleaner_image}", f"({msg.from_user.mention}|{user_id})", ex)
             return False
@@ -39,6 +42,8 @@ class cleaner_image_msg(BoundFilter):
                         pass
                 dict_show_costume_mediagroup[user_id] = []
             return False
+        except (MessageCantBeDeleted, MessageToDeleteNotFound):
+            pass
         except Exception as ex:
             print(get_current_time(), "[ОШИБКА] {cleaner_image_msg}", f"({msg.from_user.mention}|{user_id})", ex)
             return False

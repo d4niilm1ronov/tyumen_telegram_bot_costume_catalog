@@ -31,7 +31,7 @@ dict_show_costume_mediagroup: dict = {}
 # ======================================================================================================================
 
 # Отображение костюма
-@dp.callback_query_handler(lambda c: c.data.startswith("show_costume_id"))
+@dp.callback_query_handler(lambda c: c.data.startswith("show_costume_id"), state="*")
 async def show_costume(cbq: CallbackQuery, all_photo=False):
     try:
         id_costume = int(cbq.data.split("show_costume_id")[1])
@@ -72,8 +72,8 @@ async def show_costume(cbq: CallbackQuery, all_photo=False):
         # Если модератор откроет костюм
         if sqlite_utils.its_moder(cbq.from_user.id):
             text_ikb_photo = "Изменить фото" if len(arr_idphoto) else "Добавить фото"
-            data_ikb_photo = f"photo_ID{id_costume}" if len(arr_idphoto) else f"input_photo_ID{id_costume}"
-            kb.add(IKButton(text="🔽 ПАНЕЛЬ УПРАВЛЕНИЯ 🔽", callback_data=f"zaglushka1703"))
+            data_ikb_photo = f"photo_ID{id_costume}" if len(arr_idphoto) else f"photo_input_ID{id_costume}"
+            kb.add(IKButton(text="🔽 ПАНЕЛЬ УПРАВЛЕНИЯ 🔽", callback_data=f"null"))
             kb.add(IKButton(text="Изменить имя", callback_data=f"costume_edit_name_ID{id_costume}"))
             kb.add(IKButton(text=text_ikb_photo, callback_data=f"costume_edit_{data_ikb_photo}"))
             kb.add(IKButton(text="Изменить описание", callback_data=f"costume_edit_description_ID{id_costume}"))

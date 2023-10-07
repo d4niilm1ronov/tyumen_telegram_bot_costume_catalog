@@ -15,7 +15,7 @@ from loader import dp
 from state.main import TransportingImage
 
 
-@dp.message_handler(commands=['start'])
+@dp.message_handler(commands=['start'], state="*")
 async def command_start(msg: Message):
     try:
         sqlite_utils.update_username(msg.from_user.id, msg.from_user.full_name)
