@@ -35,3 +35,4 @@ urllib3==1.26.16
 wsproto==1.2.0
 yarl==1.9.2
 apscheduler
+tzdata
